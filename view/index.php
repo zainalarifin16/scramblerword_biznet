@@ -23,10 +23,13 @@
 					<h1 align="center" >Scrambler Word Biz</h1>
 					<hr>
 					<center><button id="play_now" >Play Now</button></center>
-					SCORE : <div id="score_game"></div>
 					<form id="form_game" style="display: none;" align="center" >
+						<div style="float:left;" > SCORE : </div><h3 id="score_game" style="float:left;" ></h3>
+						<br>
+						<br>
+						<br>
 						<div>
-							<h2>SOAL SCRAMBLER</h2>
+							<h2 id="question_game" >SOAL SCRAMBLER</h2>
 						</div>
 						<div>
 							<input type="text" name="input_user">

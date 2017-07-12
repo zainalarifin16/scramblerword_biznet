@@ -13,10 +13,10 @@ class BookModel
 	}
 
 	public function initWords(){
-
-		array_push($this->dataWords, new Word("Reading"));
-		array_push($this->dataWords, new Word("Speaking"));
-		array_push($this->dataWords, new Word("Writing"));
+		$db = Db::getInstance();
+		array_push($this->dataWords, new Word(1, "Reading"));
+		array_push($this->dataWords, new Word(2, "Speaking"));
+		array_push($this->dataWords, new Word(3, "Writing"));
 		return $this->dataWords;
 
 	}
