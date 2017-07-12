@@ -23,6 +23,13 @@ $( document ).ready(function() {
         question    = soal[last_question-1].question;
         $("#question_game").html( question );
         soal.pop();
+        if( last_question == 2 ){
+            get_data("get","http://scramblerword.biznet/WordController/generateNewWord").success(function(resultGetData){
+                $(resultGetData['data']).each(function(index, data){
+                    soal.push(data);
+                });
+            });
+        }
     }
 
     get_data("get","http://scramblerword.biznet/WordController/index").success(function(resultGetData){
@@ -39,12 +46,15 @@ $( document ).ready(function() {
 
     $("#form_game").submit(function(e){
     	e.preventDefault();
-        $data = { answer: $("input[name='input_user']").val() };
+        $data = { id: id_question,answer: $("input[name='input_user']").val() };
     	get_data("post", "http://scramblerword.biznet/WordController/answerQuestion", $data).done(function(resultPost){
             console.log(resultPost);
-    		score += 1;
-	    	$("#score_game").html(score);
-	    	$("input[name='input_user']").val("");
+            if(resultPost["answeris"])
+                score++;
+            else
+                score--;
+            $("#score_game").html(score);
+            $("input[name='input_user']").val("");
             assign_question();
     	})
     });

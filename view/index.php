@@ -27,7 +27,10 @@
 						<div style="float:left;" > SCORE : </div><h3 id="score_game" style="float:left;" ></h3>
 						<br>
 						<br>
-						<br>
+						
+						<div>
+							<h2 id="feedback" style="display: none;" >feedback SCRAMBLER</h2>
+						</div>
 						<div>
 							<h2 id="question_game" >SOAL SCRAMBLER</h2>
 						</div>

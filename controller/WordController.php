@@ -31,8 +31,13 @@ class WordController
 	public function answerQuestion()
 	{
 		$data = $_POST;
+		$dataWord = $this->book_model->getWord($data["id"]);
+		$result = array(
+					'answeris' => ( strtolower($_POST["answer"]) === strtolower($dataWord["word"]) ),
+					'wordcorrect' => $dataWord["word"]
+				);
 		header('Content-Type: application/json');
-		echo json_encode($data);
+		echo json_encode($result);
 	}
 
 	//get
@@ -59,11 +64,23 @@ class WordController
 
 	public function generateNewWord()
 	{
-		$URL_API = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=false&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&limit=10&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
-		$response = file_get_contents($URL_API);
-		echo "<pre>";
-		print_r(json_decode($response));
-		echo "</pre>";
+		$URL_API = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&includePartOfSpeech=verb&excludePartOfSpeech=idiom&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&limit=10&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
+
+		$result_api = json_decode( file_get_contents($URL_API) );
+
+		$sync_db = $this->book_model->batchAddWords($result_api);
+
+		$response = array();
+		$response['dataWords'] = $sync_db;
+
+		$wordChallange = $this->create_question( (object) $response);
+
+		$array_respon = array(
+						"data" => $wordChallange
+						);
+		header('Content-Type: application/json');
+		echo json_encode($array_respon);
+
 	}
 
 	private function create_question($dataWord){
