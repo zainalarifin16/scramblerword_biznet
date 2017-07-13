@@ -1,4 +1,7 @@
 $( document ).ready(function() {
+
+    var base_url = (window.location.href).replace("#","");
+
  	var soal = [];
     var highScore = 0;
  	var score = 0;
@@ -27,7 +30,7 @@ $( document ).ready(function() {
         $("#question_game").html( question );
         soal.pop();
         if( last_question == 2 ){
-            get_data("get","http://scramblerword.biznet/WordController/generateNewWord").success(function(resultGetData){
+            get_data("get",base_url+"WordController/generateNewWord").success(function(resultGetData){
                 $(resultGetData['data']).each(function(index, data){
                     soal.push(data);
                 });
@@ -35,14 +38,22 @@ $( document ).ready(function() {
         }
     }
 
-    get_data("get","http://scramblerword.biznet/WordController/index").success(function(resultGetData){
+    get_data("get",base_url+"WordController/index").success(function(resultGetData){
         
+        //setup facebook
+        $("#og_url").attr("content", base_url );
+        $("#og_type").attr("content", "website" );
+        $("#og_title").attr("content", $("title").html() );
+        $("#og_desc").attr("content", $("meta[name='Description']").attr("content") );
+
         $("#score_game").html(score);
         $("#high_score_game").html(highScore);
-        
+
         $(resultGetData['data']).each(function(index, data){
             soal.push(data);
         });
+        console.log(base_url+"WordController/index");
+        console.log(resultGetData);
         assign_question();
     });
 
@@ -51,10 +62,26 @@ $( document ).ready(function() {
     	$("#form_game").show();
     });
 
+    $("#share_fb").on("click", function(e){
+        e.preventDefault();
+        FB.ui({
+            method: 'share',
+            display: 'popup',
+            mobile_iframe: true,
+            quote: "My High Score : "+highScore+", can you beat me at "+base_url,
+            href: base_url,
+          }, function(response){});
+    });
+
+    $("#share_twitter").on("click", function(e){
+        e.preventDefault();
+        window.open("https://twitter.com/share?url="+base_url+"&amp;text=My High Score : "+highScore+", can you beat me at &amp;hashtags=ScramblerWordBiz", "Share your score Scrambler Word Biz", "width=500,height=400");
+    })
+
     $("#form_game").submit(function(e){
     	e.preventDefault();
         $data = { id: id_question,answer: $("input[name='input_user']").val() };
-    	get_data("post", "http://scramblerword.biznet/WordController/answerQuestion", $data).done(function(resultPost){
+    	get_data("post", base_url+"WordController/answerQuestion", $data).done(function(resultPost){
             if(resultPost["answeris"]){
                 score++;
                 $("#feedback").html( "+1 "+wordCorrect[ Math.floor((Math.random() * (wordCorrect.length-1))) ] )
