@@ -3,7 +3,7 @@
 * Class Controller
 */
 
-include_once("model/bookmodel.php");
+include_once("model/Bookmodel.php");
 
 class WordController
 {
