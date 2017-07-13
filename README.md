@@ -1,5 +1,5 @@
 # scramblerword_biznet
-Scrambler Word Games for Biznet Aptitude Test 
+Scrambler Word Games for Biznet Aptitude Test, it is simple Implementation of MVC in PHP, and also using jquery for Ajax.
 
 ## how to deploy it
 
