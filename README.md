@@ -12,7 +12,7 @@ Scrambler Word Games for Biznet Aptitude Test
 * Auto Generate Table
 * Auto Generate Content from API wordnik.com
 * Save HighScore on Local Machine
-* Add new Word by Admin, the password system : **saya super admin**
+* Add new Word by Admin, the password system : "**saya super admin**"
 
 ```bash
 git clone git@github.com:zainalarifin16/scramblerword_biznet.git
