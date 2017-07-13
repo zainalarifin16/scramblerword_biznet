@@ -41,15 +41,19 @@ class WordController
 	}
 
 	//get
-	public function addWord($word){
+	public function addWord(){
+		$word = $_POST;
+		$result = false;
 		if($word != null){
-			$this->book_model->addWords($word);
-			$array_data = array(
-							"data" => $this->book_model
-							);
-			header('Content-Type: application/json');
-			echo json_encode($array_data);
+			foreach ($word['data'] as $key => $value) {
+				# code...
+				$word['data'][ $key ] = (object) $word['data'][ $key ];
+			}
+			if($this->book_model->batchAddWords($word['data']))
+				$result = true;
 		}
+		header('Content-Type: application/json');
+		echo json_encode($result);
 	}
 
 	public function getAll(){

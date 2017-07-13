@@ -62,7 +62,31 @@
 		</div>
 		<div class="footer">
 			<div class="container" >
-				Zainal Arifin &copy; Copyright 2017
+				<a href="#" id="access_admin" >Zainal Arifin</a> &copy; Copyright 2017
+			</div>
+			<div id="modal_admin" class="modal">
+			  
+			  <!-- Modal content -->
+			  <div class="modal-content">
+			    <div class="modal-header">
+			      <span class="close">&times;</span>
+			      <h2>Word System</h2>
+			    </div>
+			    <div class="modal-body">
+			      <form id="word_system" >
+			      	<p>Do you know the magic word ?</p>
+			      	<p id="feedback_system" ></p>
+			        <input type="password" name="magic_word">
+			        <button type="submit" >GO</button>
+			      </form>
+			      <form id="input_word" style="display: none;" >
+			      	<input id="text_word" type="text" name="word[]"><br/>
+			      	<button id="add_more" >Add More</button>
+			      	<button type="submit" >Save</button>
+			      </form>
+			    </div>
+			  </div>
+
 			</div>
 		</div>
 	</body>

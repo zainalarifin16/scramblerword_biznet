@@ -3,12 +3,13 @@ $( document ).ready(function() {
     var base_url = (window.location.href).replace("#","");
 
  	var soal = [];
-    var highScore = 0;
+    var highScore = ( typeof localStorage.highScore != "undefined" )? localStorage.highScore : 0;
  	var score = 0;
     var id_question = 0;
     var question = "";
     var wordCorrect = ["Good Job", "Excellent", "Good Work", "Superb", "Skillful"];
     var wordFail = [ "Incorrect", "Not Good", "Sad", "Unacceptable", "Noobs" ];
+    var adminPass = "c2F5YSBzdXBlciBhZG1pbg==";
 
     var get_data = function(method, url, $data = null){
     	var ajax;
@@ -22,6 +23,68 @@ $( document ).ready(function() {
     	return ajax;
 
     }
+
+    $("#access_admin").on("click", function(e){
+        e.preventDefault();
+        $("#modal_admin").show();
+    });
+
+    $( $(".close")[0] ).on("click", function(e){
+        $("#modal_admin").hide();
+
+    });
+
+    $(window).on("click", function(e){
+        if( e.target == $("#modal_admin") ){
+            $("#modal_admin").hide();
+        }
+    });
+
+    $("#word_system").submit(function(e){
+        e.preventDefault();
+        var userInput = $("input[name='magic_word']").val();
+        if(btoa(userInput) == adminPass){
+            $(this).hide();
+            $("input[name='magic_word']").val("");
+            $("#input_word").show();
+        }else{
+            $("#feedback_system").show();
+            $("#feedback_system").html("WRONG MAGIC WORD!").css("color","red");
+            setTimeout(function() {
+                $("#feedback_system").hide();
+            }, 1000);
+        }
+    });
+
+    $("#add_more").on("click", function(e){
+        e.preventDefault();
+        $(this).before( $("#text_word").clone().val("") ).before($("<br/>"));
+    });
+
+    $("#input_word").submit(function(e){
+        e.preventDefault();
+        $("#word_system").show();
+        $("#modal_admin").hide();
+
+        var input_user = $("form#input_word input[type='text']");
+        var dataWord = [];
+        input_user.each(function(index, data){
+            if($(data).val() != ""){
+                dataWord.push( { word: $(data).val() } );
+            }
+        });
+        console.log(dataWord);
+        get_data("post", base_url+"WordController/addWord", { data: dataWord }).done(function(resultPost){
+            console.log(resultPost);
+        });
+
+        $(this).html('<input id="text_word" type="text" name="word[]"><br/><button id="add_more" >Add More</button><button type="submit" >Save</button>').hide();
+        $("#add_more").on("click", function(e){
+            e.preventDefault();
+            $(this).before( $("#text_word").clone().val("") ).before($("<br/>"));
+        });
+
+    });
 
     assign_question = function(){
         var last_question = soal.length;
@@ -80,15 +143,17 @@ $( document ).ready(function() {
 
     $("#form_game").submit(function(e){
     	e.preventDefault();
-        $data = { id: id_question,answer: $("input[name='input_user']").val() };
-    	get_data("post", base_url+"WordController/answerQuestion", $data).done(function(resultPost){
+        var data = { id: id_question,answer: $("input[name='input_user']").val() };
+    	get_data("post", base_url+"WordController/answerQuestion", data).done(function(resultPost){
             if(resultPost["answeris"]){
                 score++;
                 $("#feedback").html( "+1 "+wordCorrect[ Math.floor((Math.random() * (wordCorrect.length-1))) ] )
                               .css("color", "green")
                               .show();
-                if( highScore < score )
+                if( highScore < score ){
                     highScore = score;
+                    localStorage.setItem("highScore", highScore);
+                }
             }
             else{
                 score--;
