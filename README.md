@@ -15,7 +15,7 @@ Scrambler Word Games for Biznet Aptitude Test, it is simple Implementation of MV
 * Add new Word by Admin, the password system : "**saya super admin**"
 
 ```bash
-git clone git@github.com:zainalarifin16/scramblerword_biznet.git
+git clone https://github.com/zainalarifin16/scramblerword_biznet.git
 ```
 **Now you can access play it from browser! Have Fun!**
 
