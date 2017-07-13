@@ -74,7 +74,7 @@ $( document ).ready(function() {
             }
         });
         console.log(dataWord);
-        get_data("post", base_url+"WordController/addWord", { data: dataWord }).done(function(resultPost){
+        get_data("post", base_url+"Wordcontroller/addWord", { data: dataWord }).done(function(resultPost){
             console.log(resultPost);
         });
 
@@ -93,7 +93,7 @@ $( document ).ready(function() {
         $("#question_game").html( question );
         soal.pop();
         if( last_question == 2 ){
-            get_data("get",base_url+"WordController/generateNewWord").success(function(resultGetData){
+            get_data("get",base_url+"Wordcontroller/generateNewWord").success(function(resultGetData){
                 $(resultGetData['data']).each(function(index, data){
                     soal.push(data);
                 });
@@ -101,7 +101,7 @@ $( document ).ready(function() {
         }
     }
 
-    get_data("get",base_url+"WordController/index").success(function(resultGetData){
+    get_data("get",base_url+"Wordcontroller/index").success(function(resultGetData){
         
         //setup facebook
         $("#og_url").attr("content", base_url );
@@ -115,7 +115,7 @@ $( document ).ready(function() {
         $(resultGetData['data']).each(function(index, data){
             soal.push(data);
         });
-        console.log(base_url+"WordController/index");
+        console.log(base_url+"Wordcontroller/index");
         console.log(resultGetData);
         assign_question();
     });
@@ -144,7 +144,7 @@ $( document ).ready(function() {
     $("#form_game").submit(function(e){
     	e.preventDefault();
         var data = { id: id_question,answer: $("input[name='input_user']").val() };
-    	get_data("post", base_url+"WordController/answerQuestion", data).done(function(resultPost){
+    	get_data("post", base_url+"Wordcontroller/answerQuestion", data).done(function(resultPost){
             if(resultPost["answeris"]){
                 score++;
                 $("#feedback").html( "+1 "+wordCorrect[ Math.floor((Math.random() * (wordCorrect.length-1))) ] )
