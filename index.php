@@ -2,7 +2,7 @@
 // index.php
 
 require_once('system/connection.php');
-include_once("controller/Controller.php");
+include_once("controller/controller.php");
 
 $requestUrl = "$_SERVER[REQUEST_URI]";
 $userRequest = explode("/", $requestUrl);

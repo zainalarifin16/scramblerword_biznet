@@ -2,7 +2,7 @@
 /**
 * Book Model
 */
-include_once("model/Word.php");
+include_once("model/word.php");
 class BookModel
 {
 	public $dataWords = array();
